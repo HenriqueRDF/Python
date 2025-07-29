@@ -13,6 +13,7 @@ Os projetos aqui foram desenvolvidos em Python utilizando bibliotecas como **Pan
 ## 🙋‍♂️ Sobre mim
 
 Me chamo **Henrique Freitas**, sou estudante de Ciência de Dados na Fatec Rubens Lara e entusiasta de aprendizado prático com projetos.  
-🔗 [Meu LinkedIn]([https://www.linkedin.com/in/henriquefreitasrdf/](https://www.linkedin.com/in/henrique-freitas-cd/))  
-🔗 [Meu GitHub]([https://github.com/HenriqueRDF](https://github.com/HenriqueRDF))
+🔗 [Meu LinkedIn](https://www.linkedin.com/in/henrique-freitas-cd/)  
+🔗 [Meu GitHub](https://github.com/HenriqueRDF)
+
 
