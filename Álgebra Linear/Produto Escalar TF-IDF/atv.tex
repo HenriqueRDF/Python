@@ -1,0 +1,179 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{booktabs} % Para tabelas de melhor qualidade
+\usepackage{url}
+\usepackage{abstract}
+\usepackage{array}
+\usepackage{tabularx} % Pacote adicionado para largura de coluna ajustável
+\usepackage{ragged2e} % Para controle de alinhamento
+
+% Configuração das margens conforme a Revista Conecta (3cm superior/esquerda, 2cm inferior/direita)
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=2cm,
+    left=3cm,
+    right=2cm
+}
+
+% Comando para justificar o texto na coluna X (quebrando a linha)
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X} 
+
+% Formatação de texto: Espaçamento 1,5
+\linespread{1.5}
+\setlength{\parindent}{1.25cm} % Recuo de parágrafo
+
+\title{\textbf{ANÁLISE VETORIAL SEMÂNTICA DE TEXTO: UMA APLICAÇÃO DA ÁLGEBRA LINEAR E TF-IDF NA MENSURAÇÃO DE SIMILARIDADE DE NOTÍCIAS}}
+\author{Henrique Rodrigues de Freitas \\ Ciência de Dados, Fatec Rubens Lara \\ henrique.freitas01@fatec.sp.gov.br}
+\date{} 
+
+\begin{document}
+
+\maketitle
+
+% -------------------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS: RESUMO E PALAVRAS-CHAVE
+% -------------------------------------------------------------------
+
+\begin{abstract}
+O presente trabalho demonstra a aplicação de conceitos de Álgebra Linear, especificamente a Similaridade de Cosseno, na área de Processamento de Linguagem Natural (PLN) para quantificar o grau de semelhança temática entre documentos textuais. A metodologia empregou o algoritmo Term Frequency-Inverse Document Frequency (TF-IDF) em Python para transformar um corpus de notícias jornalísticas em um vetor numérico em um espaço de alta dimensionalidade. Os resultados validam que pares de documentos com altíssima similaridade (cosseno de $0.9608$, ângulo de $16.09^\circ$) compartilham um vocabulário temático intenso e vetores quase colineares. Em contraste, o par menos semelhante apresentou baixa colinearidade ($\cos(\theta)=0.2667$ ou $\theta=74.53^\circ$), refletindo a divergência de temas. Este estudo confirma a eficácia da Similaridade de Cosseno como uma métrica robusta para análise semântica em grande escala, demonstrando a relevância da geometria vetorial para a recuperação e classificação de informação.
+\end{abstract}
+
+\vspace{0.5cm}
+\noindent\textbf{Palavras-chave}: álgebra linear; similaridade de cosseno; TF-IDF; análise vetorial; PLN.
+
+\vspace{1cm}
+\noindent\textbf{ABSTRACT}
+This article aims to demonstrate the practical application of core Linear Algebra concepts, specifically Cosine Similarity, in the field of Natural Language Processing (NLP) to quantify the thematic similarity between text documents. The methodology employed the Term Frequency-Inverse Document Frequency (TF-IDF) algorithm in Python to transform a corpus of news articles into numerical vectors in a high-dimensional space. Results validate that document pairs with very high similarity (cosine of $0.9608$, angle of $16.09^\circ$) share an intense thematic vocabulary and are nearly collinear. In contrast, the least similar pair showed low collinearity ($\cos(\theta)=0.2667$ or $\theta=74.53^\circ$), reflecting thematic divergence. This study confirms the effectiveness of Cosine Similarity as a robust metric for semantic analysis, demonstrating the relevance of vector geometry for large-scale information retrieval and classification.
+
+\vspace{0.5cm}
+\noindent\textbf{Keywords}: linear algebra; cosine similarity; TF-IDF; vector analysis; NLP.
+
+% -------------------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% -------------------------------------------------------------------
+
+\section{Introdução}
+
+A gestão e análise de dados textuais são desafios centrais na Ciência da Computação moderna. A Álgebra Linear oferece uma solução robusta por meio do \textit{Vector Space Model} (VSM), onde a linguagem natural é traduzida em uma representação geométrica. Neste modelo, cada documento é tratado como um vetor em um espaço euclidiano $M$-dimensional.
+
+O propósito central deste trabalho é demonstrar o rigor e a eficácia dessa conversão, focando no cálculo do Cosseno do Ângulo ($\theta$) entre os vetores de documentos. Esta métrica, conhecida como Similaridade de Cosseno, permite avaliar o quão semelhantes são as orientações dos vetores no espaço, fornecendo uma quantificação direta da semelhança temática entre as notícias.
+
+\section{Referencial Teórico}
+
+\subsection{Representação Vetorial e TF-IDF}
+
+O algoritmo TF-IDF (Term Frequency-Inverse Document Frequency) é o vetorizador escolhido para este estudo. Ele constrói a Matriz Documento-Termo onde cada dimensão do vetor de um documento representa a importância de uma palavra (termo).
+
+A ponderação TF-IDF é calculada como o produto da frequência do termo no documento (TF) e o inverso da frequência do documento no corpus (IDF):
+$$
+\text{TF-IDF}(t, d) = \text{TF}(t, d) \times \text{IDF}(t)
+$$
+Onde o $\text{IDF}(t)$ penaliza termos comuns que ocorrem em muitos documentos do corpus (como ‘e’, ‘de’, ‘a’), garantindo que apenas termos tematicamente relevantes contribuam significativamente para a direção do vetor.
+
+\subsection{Análise da Similaridade de Cosseno}
+
+A Similaridade de Cosseno é uma métrica geométrica que mede o ângulo entre dois vetores. Sua principal vantagem é a \textbf{independência da magnitude} (comprimento) do vetor, sendo ideal para comparar documentos de tamanhos desiguais.
+
+O cosseno do ângulo ($\theta$) entre dois vetores $\vec{A}$ (Documento $D_i$) e $\vec{B}$ (Documento $D_j$) é dado pelo Produto Escalar normalizado:
+$$
+\text{Similaridade}(\vec{A}, \vec{B}) = \cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{\|\vec{A}\| \|\vec{B}\|}
+$$
+O resultado varia de 0 (vetores ortogonais, temas distintos) a 1 (vetores colineares, temas idênticos). A conversão para o ângulo em graus fornece uma métrica intuitiva da separação temática.
+
+\section{Metodologia}
+
+\subsection{Descrição do Corpus e Pré-processamento}
+O \textit{corpus} utilizado é o dataset de notícias brasileiras disponibilizado na plataforma Kaggle (\url{diogocaliman/notcias-publicadas-no-brasil}). O \textit{dataset} contém notícias classificadas por assunto, como 'esportes', 'economia' e 'política'.
+
+O pré-processamento incluiu a \textbf{remoção de stop words} da língua portuguesa para assegurar que o foco vetorial estivesse nos termos temáticos.
+
+\subsection{Amostragem e Mitigação de Vício (Data Viciado)}
+\textbf{O problema do vício de dados na amostragem} foi identificado durante a análise exploratória: a aplicação de uma amostragem simples (`head(40)`), sobre o dataset sequencialmente ordenado, resultou em uma amostra inicial desbalanceada, na qual predominavam as notícias de 'economia' e 'esportes' e poucas de 'política', comprometendo a prova geométrica.
+
+Para solucionar este vício e garantir que o PCA (Análise de Componentes Principais) e a análise de ortogonalidade fossem estatisticamente válidos e visualmente demonstráveis, foi aplicada a técnica de \textbf{Amostragem Aleatória Estratificada}. Esta técnica selecionou um número igual e aleatório ($N=14$) de documentos de cada uma das três categorias de interesse ('economia', 'esportes', 'política'), garantindo que os vetores representassem uniformemente todos os domínios temáticos.
+
+\subsection{Vetorização e Cálculo}
+O processamento em Python (utilizando `pandas` e `scikit-learn`) seguiu as etapas:
+\begin{enumerate}
+\item \textbf{Vetorização:} Geração da matriz \item \textbf{Similaridade:} Cálculo da matriz de Similaridade de Cosseno entre todos os pares de vetores.
+\item \textbf{Ângulos:} Conversão dos valores de $\cos(\theta)$ para $\theta$ em graus.
+\end{enumerate}
+
+\section{Resultado e Discussão}
+
+A análise de similaridade identificou os pares com o ângulo mais agudo (máxima similaridade) e o ângulo mais obtuso (mínima similaridade), comprovando o modelo vetorial.
+
+\subsection{Análise da Colinearidade: O Ângulo de $16.09^\circ$}
+
+O par de documentos \textbf{D6 e D31} apresentou a maior similaridade no \textit{corpus}:
+\begin{itemize}
+\item \textbf{Similaridade de Cosseno ($\cos(\theta)$):} $0.9608$
+\item \textbf{Ângulo Vetorial ($\theta$):} $16.09^\circ$
+\end{itemize}
+
+O ângulo de $16.09^\circ$ demonstra que os vetores são \textbf{quase colineares}, indicando que eles abordam o mesmo domínio temático de forma quase idêntica. A razão direta para este alto alinhamento vetorial é a maximização do Produto Escalar ($\vec{A} \cdot \vec{B}$), causada pela sobreposição de termos de alto peso TF-IDF.
+
+\begin{table}[H]
+    \centering
+    \caption{Termos de Alto Peso Comuns aos Documentos D6 e D31}
+    \label{tab:termos_comuns}
+    % Usando tabularx e ajustando as larguras das colunas para quebrar o texto na última
+    \begin{tabularx}{0.9\textwidth}{>{\RaggedRight\arraybackslash}p{2.5cm}>{\RaggedRight\arraybackslash}p{1.5cm}>{\RaggedRight\arraybackslash}p{1.5cm}X}
+        \toprule
+        \textbf{Termo Comum} & \textbf{Peso D6} & \textbf{Peso D31} & \textbf{Justificativa Temática} \\
+        \midrule
+        processos & 0.2766 & 0.2592 & Alta Frequência em ambos, tema central. \\
+        planos & 0.2700 & 0.2530 & Alta Frequência em ambos, tema central. \\
+        stf & 0.1800 & 0.2108 & Termo específico do Judiciário e Política. \\
+        poupadores & 0.1955 & 0.1833 & Termo específico do domínio Econômico/Legal. \\
+        tribunais & 0.1800 & 0.1687 & Domínio Legal. \\
+        fux & 0.1467 & 0.1374 & Domínio Político/Judiciário (nome de Ministro). \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Conforme a Tabela \ref{tab:termos_comuns}, a forte presença de termos como 'processos', 'planos' e 'stf' confirma que ambos os documentos tratam da mesma pauta (a judicialização de planos econômicos). A contribuição destes termos com pesos elevados nos vetores maximiza o Produto Escalar e, consequentemente, alinha a direção dos vetores, validando a Similaridade de Cosseno como um indicador semântico preciso.
+
+\subsection{Análise da Ortogonalidade: Separação Vetorial}
+
+Para a amostra utilizada, o par de documentos \textbf{D0 e D13} foi identificado como o par com a \textbf{menor colinearidade}:
+\begin{itemize}
+\item \textbf{Similaridade de Cosseno ($\cos(\theta)$):} $0.2667$
+\item \textbf{Ângulo Vetorial ($\theta$):} $74.53^\circ$
+\end{itemize}
+O ângulo de $74.53^\circ$, próximo da ortogonalidade ($90^\circ$), demonstra que a intersecção de termos de alto peso entre os vetores é baixa. Isso ocorre quando os documentos abordam temas significativamente diferentes, resultando em um Produto Escalar baixo, o que valida a capacidade da Similaridade de Cosseno em medir a separação temática.
+
+\subsection{Representação Geométrica e Agrupamento (Clustering)}
+
+A Figura \ref{fig:pca_cluster} demonstra a visualização dos vetores após a redução de dimensionalidade para duas componentes principais (PCA). Esta técnica, fundamental da Álgebra Linear, projeta o espaço vetorial de alta dimensionalidade em um plano 2D, preservando a máxima variância dos dados.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{pca_cluster_tfidf_estratificado.png} 
+\caption{Representação 2D dos Vetores TF-IDF via PCA (Análise por Componentes Principais com Amostra Estratificada).}
+\label{fig:pca_cluster}
+\end{figure}
+
+O gráfico PCA exibe a formação de \textit{clusters} visivelmente distintos (Economia, Esportes e Política), corroborando o poder da métrica de cosseno. Os vetores de conteúdos temáticos idênticos se agrupam, reforçando que a direção vetorial é a chave para a similaridade, enquanto os grupos distintos (ortogonais) se distanciam no plano, comprovando a eficácia da transformação do texto em geometria vetorial para fins de classificação.
+
+\section{Considerações Finais}
+
+O trabalho atingiu seu objetivo de demonstrar a aplicação direta de conceitos de Álgebra Linear, em particular o Produto Escalar normalizado (Similaridade de Cosseno), para a quantificação da semelhança semântica de textos. A análise detalhada da colinearidade entre D6 e D31, justificada pela sobreposição de termos TF-IDF de alto peso, provou que a direção vetorial no espaço $\mathbb{R}^M$ é um substituto robusto para a essência temática do texto. O resultado do ângulo de $74.53^\circ$ para o par menos colinear demonstra o rigor da métrica na medição da divergência. Este método é essencial para as bases de algoritmos de sistemas de recomendação, motores de busca e \textit{clustering} automático de documentos.
+
+\section{Referências}
+
+\begin{enumerate}
+\item CALIMAN, D. \textit{Notícias publicadas no Brasil}. Dataset disponível em: \url{https://www.kaggle.com/datasets/diogocaliman/notcias-publicadas-no-brasil}. Acesso em: 21/10/2025.
+\item JURAFSKY, Daniel; MARTIN, James H. \textit{Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics and Speech Recognition}. 3. ed. Pearson, 2021.
+\item LAY, David C.; LAY, Steven R.; MCDONALD, Judi J. \textit{Álgebra Linear e suas Aplicações}. 5. ed. LTC, 2018.
+\item PEDREGOSA, F. et al. Scikit-learn: Machine Learning in Python. \textit{Journal of Machine Learning Research}, v. 12, p. 2825-2830, 2011.
+\end{enumerate}
+
+\end{document}
