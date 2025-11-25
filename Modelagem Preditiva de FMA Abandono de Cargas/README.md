@@ -60,7 +60,7 @@ O projeto foi estruturado em 5 etapas rigorosas:
 
 | Curva de Sobrevivência (Atual) | Simulação de Cenários (90 vs 60 Dias) |
 |:---:|:---:|
-| ![Kaplan Meier](https://via.placeholder.com/400x250?text=Inserir+Grafico+Kaplan) | ![Cenarios](https://via.placeholder.com/400x250?text=Inserir+Grafico+Cenarios) |
+| <img width="100%" alt="Kaplan Meier" src="https://github.com/user-attachments/assets/8965798d-8464-4565-9392-3507e246c0ba" /> | <img width="100%" alt="Cenarios" src="https://github.com/user-attachments/assets/692affaa-4583-4d2d-afb0-aec34245443a" /> |
 
 > *A área amarela no gráfico de cenários representa o volume financeiro e operacional em risco caso a legislação seja alterada.*
 
@@ -93,9 +93,9 @@ O projeto foi estruturado em 5 etapas rigorosas:
 
 ## 👨‍💻 Autor
 
-**[Seu Nome]**
+**Henrique Freitas**
 * [LinkedIn](https://linkedin.com/in/seu-perfil)
-* [Portfólio](https://seu-site.com)
+* [Portfólio](https://henriquerdf.github.io)
 
 ---
 
